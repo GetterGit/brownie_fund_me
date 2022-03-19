@@ -1,0 +1,32 @@
+#telling where brownie shall pull the chainlink contracts from exactly from github
+dependencies:
+  # - <organization/repo>@<version>
+  - smartcontractkit/chainlink-brownie-contracts@1.1.1
+
+#we now need to tell brownie that we want to access the above github whenever we write @chainlink
+compiler:
+  solc:
+    remappings:
+      - '@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1'
+
+#adding the wallet private key we wanna deploy with
+dotenv: .env
+networks:
+  # setting the default network to be ganache-local so that we don't need to add --network ganache-local to the console commands
+  default: ganache-local
+  rinkeby:
+    eth_usd_price_feed: '0x8A753747A1Fa494EC906cE90E9f37563A8AF630e'
+    # also setting up contract verefication dependent on a network we are on
+    verify: True
+  #ethereum-mainnet-fork:
+    #eth_usd_price_feed: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
+    #verify: False
+  ethereum-mainnet-fork-dev:
+    eth_usd_price_feed: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
+    verify: False
+  development: 
+    verify: False
+  ganache-local:
+    verify: False
+wallets:
+  from_key: ${PRIVATE_KEY}
